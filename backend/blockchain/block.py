@@ -29,6 +29,20 @@ class Block:
     def __eq__(self, other):
         return self.__dict__ == other.__dict__
 
+    @staticmethod
+    def from_json(block_json):
+        """
+        Deserialize a block's json representation back into a block instance.
+        """
+        return Block(**block_json)
+
+
+    def to_json(self):
+        """
+        Seralize the block intoa dictionary of its attributes
+        """
+        return self.__dict__
+
     def __repr__(self):
         return (
             'Block('
@@ -101,7 +115,7 @@ class Block:
         if abs(last_block.difficulty - block.difficulty) > 1:
             raise Exception('The block difficulty must only adjust by one')
 
-        reconstucted_hash = crypto_hash(
+        reconstructed_hash = crypto_hash(
             block.timestamp,
             block.last_hash,
             block.data,
@@ -109,7 +123,7 @@ class Block:
             block.difficulty
         )
 
-        if block.hash != reconstucted_hash:
+        if block.hash != reconstructed_hash:
             raise Exception('The block hash must be correct')
 
 
